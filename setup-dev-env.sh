@@ -533,13 +533,13 @@ PKG_TOML
     # Install yazi plugins and flavors
     if command -v ya &>/dev/null; then
         info "Installing yazi packages (plugins + flavors)..."
-        if ! ya pack -i; then
-            warn "ya pack -i failed — yazi plugins/flavors may be missing."
-            warn "Run 'ya pack -i' manually after setup to retry."
+        if ! ya pkg install; then
+            warn "ya pkg install failed — yazi plugins/flavors may be missing."
+            warn "Run 'ya pkg install' manually after setup to retry."
         fi
     else
         warn "'ya' command not found — skipping yazi package install."
-        warn "Run 'ya pack -i' manually after yazi is available."
+        warn "Run 'ya pkg install' manually after yazi is available."
     fi
 
     ok "yazi configured"
