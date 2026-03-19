@@ -240,16 +240,27 @@ install_tmux() {
 configure_tmux() {
     info "Configuring oh-my-tmux..."
     local tmux_dir="$HOME/.config/tmux"
+    local omt_dir="$HOME/.config/oh-my-tmux"
 
-    # Clone oh-my-tmux if not present
-    if [[ ! -f "$tmux_dir/tmux.conf" ]] || ! grep -q "gpakosz" "$tmux_dir/tmux.conf" 2>/dev/null; then
-        # Backup existing config
-        if [[ -d "$tmux_dir" ]]; then
-            mv "$tmux_dir" "${tmux_dir}.bak.$(date +%s)"
+    # Clone oh-my-tmux to separate directory
+    if [[ ! -d "$omt_dir/.git" ]]; then
+        if [[ -d "$omt_dir" ]]; then
+            mv "$omt_dir" "${omt_dir}.bak.$(date +%s)"
         fi
-        git clone https://github.com/gpakosz/.tmux.git "$tmux_dir"
+        git clone https://github.com/gpakosz/.tmux.git "$omt_dir"
     fi
     ok "oh-my-tmux cloned"
+
+    # Create tmux config dir and symlink
+    mkdir -p "$tmux_dir"
+    if [[ ! -L "$tmux_dir/tmux.conf" ]]; then
+        # Backup existing tmux.conf if it's a regular file
+        if [[ -f "$tmux_dir/tmux.conf" ]]; then
+            mv "$tmux_dir/tmux.conf" "$tmux_dir/tmux.conf.bak.$(date +%s)"
+        fi
+        ln -sf "../oh-my-tmux/.tmux.conf" "$tmux_dir/tmux.conf"
+    fi
+    ok "tmux.conf symlinked"
 
     # --- tmux.conf.local ---
     cat > "$tmux_dir/tmux.conf.local" << 'TMUX_LOCAL'
