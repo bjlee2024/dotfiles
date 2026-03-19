@@ -1008,11 +1008,11 @@ function yy() {
 }
 
 # =============================================================================
-# Dependencies (sesh, fzf, eza, fd, ripgrep, zoxide, glow)
+# Dependencies (sesh, fzf, eza, fd, ripgrep, zoxide, glow, lazygit, lazydocker)
 # =============================================================================
 install_dependencies() {
-    info "Installing dependencies (fzf, eza, fd, ripgrep, zoxide, sesh, glow)..."
-    brew install fzf eza fd ripgrep zoxide sesh glow 2>/dev/null || true
+    info "Installing dependencies (fzf, eza, fd, ripgrep, zoxide, sesh, glow, lazygit, lazydocker)..."
+    brew install fzf eza fd ripgrep zoxide sesh glow lazygit lazydocker 2>/dev/null || true
     ok "Dependencies installed"
 }
 
