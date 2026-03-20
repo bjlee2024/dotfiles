@@ -251,6 +251,16 @@ configure_tmux() {
     fi
     ok "oh-my-tmux cloned"
 
+    # Remove legacy ~/.tmux.conf so tmux uses the XDG path (~/.config/tmux/)
+    if [[ -e "$HOME/.tmux.conf" || -L "$HOME/.tmux.conf" ]]; then
+        mv "$HOME/.tmux.conf" "$HOME/.tmux.conf.bak.$(date +%s)"
+        warn "Backed up existing ~/.tmux.conf (it takes priority over XDG config)"
+    fi
+    if [[ -e "$HOME/.tmux.conf.local" || -L "$HOME/.tmux.conf.local" ]]; then
+        mv "$HOME/.tmux.conf.local" "$HOME/.tmux.conf.local.bak.$(date +%s)"
+        warn "Backed up existing ~/.tmux.conf.local"
+    fi
+
     # Create tmux config dir and symlink
     mkdir -p "$tmux_dir"
     if [[ ! -L "$tmux_dir/tmux.conf" ]]; then
